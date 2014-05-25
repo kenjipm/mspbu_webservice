@@ -12,22 +12,37 @@ namespace Web_Service
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service : IService
     {
-        public string GetData(int value)
+        public List<wsLogin> getLogin()
         {
-            return string.Format("You entered: {0}", value);
+            mspbudbDataContext dc = new mspbudbDataContext();
+            List<wsLogin> results = new List<wsLogin>();
+
+            foreach (login lgn in dc.logins)
+            {
+                results.Add(new wsLogin()
+                {
+                    username = lgn.username,
+                    password = lgn.password
+                });
+            }
+
+            return results;
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
+        public List<wsPassword> getPassword(string username)
         {
-            if (composite == null)
+            mspbudbDataContext dc = new mspbudbDataContext();
+            List<wsPassword> results = new List<wsPassword>();
+
+            foreach (login lgn in dc.logins.Where(s => s.username == username))
             {
-                throw new ArgumentNullException("composite");
+                results.Add(new wsPassword()
+                {
+                    password = lgn.password
+                });
             }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
+
+            return results;
         }
     }
 }
