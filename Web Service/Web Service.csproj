@@ -59,10 +59,15 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LoadingOrder.svc" />
     <Content Include="Service.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ILoadingOrder.cs" />
+    <Compile Include="LoadingOrder.svc.cs">
+      <DependentUpon>LoadingOrder.svc</DependentUpon>
+    </Compile>
     <Compile Include="Service.svc.cs">
       <DependentUpon>Service.svc</DependentUpon>
     </Compile>
