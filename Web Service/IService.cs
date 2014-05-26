@@ -14,11 +14,11 @@ namespace Web_Service
     {
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "getLogin")]
-        List<wsLogin> getLogin();
+        List<login> getLogin();
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "getPassword/{username}")]
-        List<wsPassword> getPassword(string username);
+        List<string> getPassword(string username);
 
         // TODO: Add your service operations here
     }

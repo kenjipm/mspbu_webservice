@@ -12,14 +12,14 @@ namespace Web_Service
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service : IService
     {
-        public List<wsLogin> getLogin()
+        public List<login> getLogin()
         {
-            mspbudbDataContext dc = new mspbudbDataContext();
-            List<wsLogin> results = new List<wsLogin>();
+            mspbuEntities mspbu = new mspbuEntities();
+            List<login> results = new List<login>();
 
-            foreach (login lgn in dc.logins)
+            foreach (login lgn in mspbu.logins)
             {
-                results.Add(new wsLogin()
+                results.Add(new login()
                 {
                     username = lgn.username,
                     password = lgn.password
@@ -29,17 +29,14 @@ namespace Web_Service
             return results;
         }
 
-        public List<wsPassword> getPassword(string username)
+        public List<string> getPassword(string username)
         {
-            mspbudbDataContext dc = new mspbudbDataContext();
-            List<wsPassword> results = new List<wsPassword>();
+            mspbuEntities mspbu = new mspbuEntities();
+            List<string> results = new List<string>();
 
-            foreach (login lgn in dc.logins.Where(s => s.username == username))
+            foreach (login lgn in mspbu.logins.Where(s => s.username == username))
             {
-                results.Add(new wsPassword()
-                {
-                    password = lgn.password
-                });
+                results.Add(lgn.password);
             }
 
             return results;
