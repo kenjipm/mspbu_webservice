@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mspbuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="dispencer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product" Type="varchar" MaxLength="20" />
+          <Property Name="jumlah_keluar" Type="float" />
+          <Property Name="waktu_keluar" Type="datetime" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="spp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="address" Type="varchar" MaxLength="250" />
+          <Property Name="police_no" Type="varchar" MaxLength="12" />
+          <Property Name="shipment_no" Type="varchar" MaxLength="50" />
+          <Property Name="volume" Type="float" />
+          <Property Name="dens_temp" Type="varchar" MaxLength="20" />
+          <Property Name="buyer" Type="varchar" MaxLength="100" />
+          <Property Name="product" Type="varchar" MaxLength="20" />
+          <Property Name="print_date" Type="datetime" />
+          <Property Name="verification_date" Type="datetime" />
+          <Property Name="status" Type="varchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product" Type="varchar" MaxLength="20" />
+          <Property Name="jumlah" Type="float" />
+          <Property Name="endurance" Type="varchar" MaxLength="50" />
+          <Property Name="next_shipment" Type="date" />
+        </EntityType>
+        <EntityContainer Name="mspbuModelStoreContainer">
+          <EntitySet Name="dispencer" EntityType="Self.dispencer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="login" EntityType="Self.login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="spp" EntityType="Self.spp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="stock" EntityType="Self.stock" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mspbuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="dispencer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="product" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="jumlah_keluar" Type="Double" />
+          <Property Name="waktu_keluar" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="product" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="jumlah" Type="Double" />
+          <Property Name="endurance" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="next_shipment" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityContainer Name="mspbuEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="dispencers" EntityType="Self.dispencer" />
+          <EntitySet Name="logins" EntityType="Self.login" />
+          <EntitySet Name="stocks" EntityType="Self.stock" />
+          <EntitySet Name="spps" EntityType="mspbuModel.spp" />
+        </EntityContainer>
+        <EntityType Name="spp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="police_no" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="shipment_no" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="volume" Type="Double" />
+          <Property Name="dens_temp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="buyer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="product" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="print_date" Type="DateTime" Precision="3" />
+          <Property Name="verification_date" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mspbuModelStoreContainer" CdmEntityContainer="mspbuEntities">
+          <EntitySetMapping Name="dispencers">
+            <EntityTypeMapping TypeName="mspbuModel.dispencer">
+              <MappingFragment StoreEntitySet="dispencer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="product" ColumnName="product" />
+                <ScalarProperty Name="jumlah_keluar" ColumnName="jumlah_keluar" />
+                <ScalarProperty Name="waktu_keluar" ColumnName="waktu_keluar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logins">
+            <EntityTypeMapping TypeName="mspbuModel.login">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stocks">
+            <EntityTypeMapping TypeName="mspbuModel.stock">
+              <MappingFragment StoreEntitySet="stock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="product" ColumnName="product" />
+                <ScalarProperty Name="jumlah" ColumnName="jumlah" />
+                <ScalarProperty Name="endurance" ColumnName="endurance" />
+                <ScalarProperty Name="next_shipment" ColumnName="next_shipment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="spps">
+            <EntityTypeMapping TypeName="mspbuModel.spp">
+              <MappingFragment StoreEntitySet="spp">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="verification_date" ColumnName="verification_date" />
+                <ScalarProperty Name="print_date" ColumnName="print_date" />
+                <ScalarProperty Name="product" ColumnName="product" />
+                <ScalarProperty Name="buyer" ColumnName="buyer" />
+                <ScalarProperty Name="dens_temp" ColumnName="dens_temp" />
+                <ScalarProperty Name="volume" ColumnName="volume" />
+                <ScalarProperty Name="shipment_no" ColumnName="shipment_no" />
+                <ScalarProperty Name="police_no" ColumnName="police_no" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
