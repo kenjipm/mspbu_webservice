@@ -1,0 +1,71 @@
+Fungsi2
+
+Todolist :
+ - tambahin database :
+	> Identitas SPBU : username, password, nama/id, alamat, pemilik, role
+	
+	> [PENDING] Stok harian : username, produk, jumlah, tanggal
+	> [PENDING] Pemesanan : username, produk
+	
+=========
+Dashboard
+=========
+ - Login :
+	> Validasi username password
+		In  : username & password yg udah di enkripsi
+		Out : integer
+	> Get detail
+		In	: username
+		Out	: username, nama/id, alamat, pemilik, role
+ - Shipment :
+	> Get summary dashboard
+		In	: username
+		Out	: shipment dari awal (jumlah, completed, in progress), total shipment dalam sebulan (jumlah, completed, in progress)
+		
+ - [PENDING] LO :
+	> Get summary dashboard
+		In	: username
+		Out	: jumlah LO available, total volume masing2 produk
+ - [PENDING] Stok :
+	> Get summary dashboard
+		In	: username
+		Out	: jumlah stok masing2 produk
+ - [PENDING] Dispencer :
+	> Get summary dashboard
+		In	: username, date
+		Out	: jumlah yg keluar dr dispenser masing2 produk (dalam periode date)
+
+
+=========
+SPP
+=========
+ - SPP :
+	> Get List
+		In	: username, page number, jumlah record (per page)
+		Out	: [list of spp], total spp
+	> Insert (Aplikasi Lokal)
+		In	: username, timestamp, [SPP]
+		Out	: integer
+
+	> [REMOVED] Get List
+		In	: username, id spp (buat nentuin page), before/after, jumlah record (per page)
+		Out	: [list of spp], total spp
+========
+Stok
+========
+ - Stok :
+	> Get summary dashboard (sama kaya dashboard)
+	> Insert (Aplikasi Lokal)
+		In	: username, jumlah, produk, timestamp
+		Out	: integer
+ - [PENDING] Pemesanan :
+	> Pesan (Aplikasi Lokal)
+		In	: username, jumlah, produk, timestamp
+		Out	: integer
+		
+		
+		
+		
+		
+		
+		
