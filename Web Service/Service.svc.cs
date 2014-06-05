@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -8,6 +9,8 @@ using System.Text;
 using Web_Service.Model;
 using Newtonsoft.Json;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Web.Script.Serialization;
 
 namespace Web_Service
 {
@@ -24,178 +27,213 @@ namespace Web_Service
 
 
         #region Login Service
-        public List<login> getLogin()
+        public int validateLogin(string username, string password)
         {
-            List<login> results = new List<login>();
+            login lgn = mspbu.logins.Where(s => s.username == username).FirstOrDefault();
 
-            foreach (login lgn in mspbu.logins)
-            {
-                results.Add(new login()
-                {
-                    username = lgn.username,
-                    password = lgn.password
-                });
-            }
+            if (lgn == null) return -2;
 
-            return results;
+            if (login.validatePassword(password, lgn.password)) return 0;
+
+            return -1;
         }
 
-        public List<string> getPassword(string username)
+        public int createLogin(string username, string password)
         {
-            mspbuEntities mspbu = new mspbuEntities();
-            List<string> results = new List<string>();
+            login lgn = mspbu.logins.Where(s => s.username == username).FirstOrDefault();
 
-            foreach (login lgn in mspbu.logins.Where(s => s.username == username))
+            if (lgn == null)
             {
-                results.Add(lgn.password);
+                mspbu.logins.Add(new login()
+                    {
+                        username = username,
+                        password = login.createHash(username, password)
+                    });
+
+                //try
+                //{
+                //    mspbu.SaveChanges();
+                //}
+                //catch (DbEntityValidationException ex)
+                //{
+                //    var errorMessage = ex.EntityValidationErrors
+                //        .SelectMany(x => x.ValidationErrors)
+                //        .Select(x => x.ErrorMessage);
+
+                //    var fullyErrorMessage = string.Join("; ", errorMessage);
+                //    var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullyErrorMessage);
+                //    throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+                //}
+
+                mspbu.SaveChanges();
+                return 0;
             }
 
-            return results;
+            return -1;
         }
         #endregion
 
 
         #region Spp Service
-        public string sppGet(int idRequest)
+        public spp sppGet(int sppId)
         {
-            spp sppFound = mspbu.spps.Find(idRequest);
+            return mspbu.spps.Find(sppId);
+            //spp sppFound = mspbu.spps.Find(idRequest);
 
-            return convertTypeToJson(sppFound);
+            //return convertTypeToJson(sppFound);
         }
-        public string sppGetAll()
+        public List<spp> sppGetAll()
         {
-            List<spp> sppsFound = mspbu.spps.ToList();
+            return mspbu.spps.ToList();
+            //List<spp> sppsFound = mspbu.spps.ToList();
 
-            return convertTypeToJson(sppsFound);
+            //return convertTypeToJson(sppsFound);
         }
-        public string sppGetWhere(spp sppAttributes)
+        public List<spp> sppGetWhere(spp sppData)
         {
-            List<spp> sppsFound = mspbu.spps.ToList();
-            if (sppAttributes.address != null)
-                sppsFound = sppsFound.Where(s => s.address == sppAttributes.address).ToList();
-            if (sppAttributes.print_date != null)
-                sppsFound = sppsFound.Where(s => s.print_date == sppAttributes.print_date).ToList();
-            if (sppAttributes.verification_date != null)
-                sppsFound = sppsFound.Where(s => s.verification_date == sppAttributes.verification_date).ToList();
-            if (sppAttributes.buyer != null)
-                sppsFound = sppsFound.Where(s => s.buyer == sppAttributes.buyer).ToList();
-            if (sppAttributes.dens_temp != null)
-                sppsFound = sppsFound.Where(s => s.dens_temp == sppAttributes.dens_temp).ToList();
-            if (sppAttributes.name != null)
-                sppsFound = sppsFound.Where(s => s.name == sppAttributes.name).ToList();
-            if (sppAttributes.police_no != null)
-                sppsFound = sppsFound.Where(s => s.police_no == sppAttributes.police_no).ToList();
-            if (sppAttributes.product != null)
-                sppsFound = sppsFound.Where(s => s.product == sppAttributes.product).ToList();
-            if (sppAttributes.shipment_no != null)
-                sppsFound = sppsFound.Where(s => s.shipment_no == sppAttributes.shipment_no).ToList();
-            if (sppAttributes.volume != null)
-                sppsFound = sppsFound.Where(s => s.volume == sppAttributes.volume).ToList();
+            List<spp> sppFound = mspbu.spps.ToList();
+            if (sppData.Id != null)
+                sppFound = sppFound.Where(s => s.Id == sppData.Id).ToList();
+            if (sppData.name != null)
+                sppFound = sppFound.Where(s => s.name == sppData.name).ToList();
+            if (sppData.address != null)
+                sppFound = sppFound.Where(s => s.address == sppData.address).ToList();
+            if (sppData.police_no != null)
+                sppFound = sppFound.Where(s => s.police_no == sppData.police_no).ToList();
+            if (sppData.shipment_no != null)
+                sppFound = sppFound.Where(s => s.shipment_no == sppData.shipment_no).ToList();
+            if (sppData.volume != null)
+                sppFound = sppFound.Where(s => s.volume == sppData.volume).ToList();
+            if (sppData.dens_temp != null)
+                sppFound = sppFound.Where(s => s.dens_temp == sppData.dens_temp).ToList();
+            if (sppData.buyer != null)
+                sppFound = sppFound.Where(s => s.buyer == sppData.buyer).ToList();
+            if (sppData.product != null)
+                sppFound = sppFound.Where(s => s.product == sppData.product).ToList();
+            if (sppData.print_date != null)
+                sppFound = sppFound.Where(s => s.print_date == sppData.print_date).ToList();
+            if (sppData.verification_date != null)
+                sppFound = sppFound.Where(s => s.verification_date == sppData.verification_date).ToList();
+            if (sppData.status != null)
+                sppFound = sppFound.Where(s => s.status == sppData.status).ToList();
+            if (sppData.arrival_date != null)
+                sppFound = sppFound.Where(s => s.arrival_date == sppData.arrival_date).ToList();
             
-            return convertTypeToJson(sppsFound);
+            return sppFound;
         }
 
-        public string sppInsert(spp sppRequest)
+        public int sppInsert(spp sppData)
         {
             //spp sppRequest = (spp)convertJsonToType(sppRequestJson, typeof(Model.spp));
 
-            mspbu.spps.Add(sppRequest);
-            int rowAffected = mspbu.SaveChanges();
+            mspbu.spps.Add(sppData);
+            return mspbu.SaveChanges();
+            //int rowAffected = mspbu.SaveChanges();
 
-            return rowAffected + " row inserted";
+            //return rowAffected + " row inserted";
         }
-        
-        public string sppInsertBatch(spp[] sppListRequest)
+
+        public int sppInsertBatch(List<spp> sppList)
         {
             //spp sppRequest = new spp();
             //List<string> sppListRequest = (List<string>)convertJsonToType(sppListRequestJson, typeof(List<string>));
-            foreach (spp sppRequest in sppListRequest)
+            foreach (spp sppData in sppList)
             {
                 //sppRequest = (spp)convertJsonToType(sppRequestJson, typeof(Model.spp));
-                mspbu.spps.Add(sppRequest);
+                mspbu.spps.Add(sppData);
             }
+            return mspbu.SaveChanges();
 
-            int rowAffected = mspbu.SaveChanges();
-            return rowAffected + " row(s) inserted";
+            //int rowAffected = mspbu.SaveChanges();
+            //return rowAffected + " row(s) inserted";
         }
 
-        public string sppUpdate(spp sppRequest)
+        public int sppUpdate(spp sppData)
         {
             //spp sppRequest = (spp)convertJsonToType(sppRequestJson, typeof(Model.spp));
-            spp sppFound = mspbu.spps.Find(sppRequest.Id);
+            spp sppFound = mspbu.spps.Find(sppData.Id);
 
             if (sppFound != null)
             {
-                sppFound.name = (sppRequest.name != null) ? sppRequest.name : sppFound.name;
-                sppFound.police_no = (sppRequest.police_no != null) ? sppRequest.police_no : sppFound.police_no;
-                sppFound.product = (sppRequest.product != null) ? sppRequest.product : sppFound.product;
-                sppFound.shipment_no = (sppRequest.shipment_no != null) ? sppRequest.shipment_no : sppFound.shipment_no;
-                sppFound.volume = (sppRequest.volume != null) ? sppRequest.volume : sppFound.volume;
-                sppFound.address = (sppRequest.address != null) ? sppRequest.address : sppFound.address;
-                sppFound.verification_date = (sppRequest.verification_date != null) ? sppRequest.verification_date : sppFound.verification_date;
-                sppFound.print_date = (sppRequest.print_date != null) ? sppRequest.print_date : sppFound.print_date;
-                sppFound.buyer = (sppRequest.buyer != null) ? sppRequest.buyer : sppFound.buyer;
-                sppFound.dens_temp = (sppRequest.dens_temp != null) ? sppRequest.dens_temp : sppFound.dens_temp;
+                sppFound.name = (sppData.name != null) ? sppData.name : sppFound.name;
+                sppFound.address = (sppData.address != null) ? sppData.address : sppFound.address;
+                sppFound.police_no = (sppData.police_no != null) ? sppData.police_no : sppFound.police_no;
+                sppFound.shipment_no = (sppData.shipment_no != null) ? sppData.shipment_no : sppFound.shipment_no;
+                sppFound.volume = (sppData.volume != null) ? sppData.volume : sppFound.volume;
+                sppFound.dens_temp = (sppData.dens_temp != null) ? sppData.dens_temp : sppFound.dens_temp;
+                sppFound.buyer = (sppData.buyer != null) ? sppData.buyer : sppFound.buyer;
+                sppFound.product = (sppData.product != null) ? sppData.product : sppFound.product;
+                sppFound.print_date = (sppData.print_date != null) ? sppData.print_date : sppFound.print_date;
+                sppFound.verification_date = (sppData.verification_date != null) ? sppData.verification_date : sppFound.verification_date;
+                sppFound.status = (sppData.status != null) ? sppData.status : sppFound.status;
+                sppFound.arrival_date = (sppData.arrival_date != null) ? sppData.arrival_date : sppFound.arrival_date;
 
                 mspbu.Entry(sppFound).State = EntityState.Modified;
+                return mspbu.SaveChanges();
             }
-            int rowAffected = mspbu.SaveChanges();
+            return -1;
+            //int rowAffected = mspbu.SaveChanges();
 
-            return rowAffected + " row updated";
+            //return rowAffected + " row updated";
         }
 
-        public string sppUpdateBatch(spp[] sppListRequest)
+        public int sppUpdateBatch(List<spp> sppList)
         {
             //spp sppRequest = new spp();
-            spp sppFound = new spp();
+            //spp sppFound = new spp();
             //string[] sppListRequest = (string[])convertJsonToType(sppListRequestJson, typeof(string[]));
-            foreach (spp sppRequest in sppListRequest)
+            foreach (spp sppData in sppList)
             {
                 //sppRequest = sppRequestJson;
-                sppFound = mspbu.spps.Find(sppRequest.Id);
+                spp sppFound = mspbu.spps.Find(sppData.Id);
 
                 if (sppFound != null)
                 {
-                    sppFound.name = (sppRequest.name != null) ? sppRequest.name : sppFound.name;
-                    sppFound.police_no = (sppRequest.police_no != null) ? sppRequest.police_no : sppFound.police_no;
-                    sppFound.product = (sppRequest.product != null) ? sppRequest.product : sppFound.product;
-                    sppFound.shipment_no = (sppRequest.shipment_no != null) ? sppRequest.shipment_no : sppFound.shipment_no;
-                    sppFound.volume = (sppRequest.volume != null) ? sppRequest.volume : sppFound.volume;
-                    sppFound.address = (sppRequest.address != null) ? sppRequest.address : sppFound.address;
-                    sppFound.print_date = (sppRequest.print_date != null) ? sppRequest.print_date : sppFound.print_date;
-                    sppFound.verification_date = (sppRequest.verification_date != null) ? sppRequest.verification_date : sppFound.verification_date;
-                    sppFound.buyer = (sppRequest.buyer != null) ? sppRequest.buyer : sppFound.buyer;
-                    sppFound.dens_temp = (sppRequest.dens_temp != null) ? sppRequest.dens_temp : sppFound.dens_temp;
+                    sppFound.name = (sppData.name != null) ? sppData.name : sppFound.name;
+                    sppFound.address = (sppData.address != null) ? sppData.address : sppFound.address;
+                    sppFound.police_no = (sppData.police_no != null) ? sppData.police_no : sppFound.police_no;
+                    sppFound.shipment_no = (sppData.shipment_no != null) ? sppData.shipment_no : sppFound.shipment_no;
+                    sppFound.volume = (sppData.volume != null) ? sppData.volume : sppFound.volume;
+                    sppFound.dens_temp = (sppData.dens_temp != null) ? sppData.dens_temp : sppFound.dens_temp;
+                    sppFound.buyer = (sppData.buyer != null) ? sppData.buyer : sppFound.buyer;
+                    sppFound.product = (sppData.product != null) ? sppData.product : sppFound.product;
+                    sppFound.print_date = (sppData.print_date != null) ? sppData.print_date : sppFound.print_date;
+                    sppFound.verification_date = (sppData.verification_date != null) ? sppData.verification_date : sppFound.verification_date;
+                    sppFound.status = (sppData.status != null) ? sppData.status : sppFound.status;
+                    sppFound.arrival_date = (sppData.arrival_date != null) ? sppData.arrival_date : sppFound.arrival_date;
 
                     mspbu.Entry(sppFound).State = EntityState.Modified;
                 }
             }
-            int rowAffected = mspbu.SaveChanges();
+            return mspbu.SaveChanges();
+            //int rowAffected = mspbu.SaveChanges();
 
-            return rowAffected + " row(s) updated";
+            //return rowAffected + " row(s) updated";
         }
 
-        public string sppDelete(int idRequest)
+        public int sppDelete(int sppId)
         {
-            spp sppFound = mspbu.spps.Find(idRequest);
+            spp sppFound = mspbu.spps.Find(sppId);
             if (sppFound != null)
                 mspbu.spps.Remove(sppFound);
-            int rowAffected = mspbu.SaveChanges();
+            return mspbu.SaveChanges();
+            //int rowAffected = mspbu.SaveChanges();
 
-            return rowAffected + " row deleted";
+            //return rowAffected + " row deleted";
         }
-        public string sppDeleteBatch(int[] idListRequest)
+        public int sppDeleteBatch(List<int> sppIdList)
         {
             //List<int> idListRequest = (List<int>)convertJsonToType(idListRequestJson, typeof(List<int>));
-            foreach (int idRequest in idListRequest)
+            foreach (int sppId in sppIdList)
             {
-                spp sppFound = mspbu.spps.Find(idRequest);
+                spp sppFound = mspbu.spps.Find(sppId);
                 if (sppFound != null)
                     mspbu.spps.Remove(sppFound);
             }
-            int rowAffected = mspbu.SaveChanges();
+            return mspbu.SaveChanges();
+            //int rowAffected = mspbu.SaveChanges();
 
-            return rowAffected + " row(s) deleted";
+            //return rowAffected + " row(s) deleted";
         }
         #endregion
 

@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="mspbuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="mspbuModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="dispencer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="product" Type="varchar" MaxLength="20" />
           <Property Name="jumlah_keluar" Type="float" />
           <Property Name="waktu_keluar" Type="datetime" />
@@ -20,13 +20,13 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="spp">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" />
           <Property Name="address" Type="varchar" MaxLength="250" />
           <Property Name="police_no" Type="varchar" MaxLength="12" />
@@ -38,12 +38,13 @@
           <Property Name="print_date" Type="datetime" />
           <Property Name="verification_date" Type="datetime" />
           <Property Name="status" Type="varchar" MaxLength="32" />
+          <Property Name="arrival_date" Type="datetime" />
         </EntityType>
         <EntityType Name="stock">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="product" Type="varchar" MaxLength="20" />
           <Property Name="jumlah" Type="float" />
           <Property Name="endurance" Type="varchar" MaxLength="50" />
@@ -68,14 +69,6 @@
           <Property Name="jumlah_keluar" Type="Double" />
           <Property Name="waktu_keluar" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="login">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
         <EntityType Name="stock">
           <Key>
             <PropertyRef Name="Id" />
@@ -88,15 +81,23 @@
         </EntityType>
         <EntityContainer Name="mspbuEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="dispencers" EntityType="Self.dispencer" />
-          <EntitySet Name="logins" EntityType="Self.login" />
           <EntitySet Name="stocks" EntityType="Self.stock" />
+          <EntitySet Name="logins" EntityType="mspbuModel.login" />
           <EntitySet Name="spps" EntityType="mspbuModel.spp" />
         </EntityContainer>
-        <EntityType Name="spp">
+        <EntityType Name="login">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="spp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="police_no" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
@@ -108,6 +109,7 @@
           <Property Name="print_date" Type="DateTime" Precision="3" />
           <Property Name="verification_date" Type="DateTime" Precision="3" />
           <Property Name="status" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="arrival_date" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -125,15 +127,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="logins">
-            <EntityTypeMapping TypeName="mspbuModel.login">
-              <MappingFragment StoreEntitySet="login">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="stocks">
             <EntityTypeMapping TypeName="mspbuModel.stock">
               <MappingFragment StoreEntitySet="stock">
@@ -145,9 +138,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="logins">
+            <EntityTypeMapping TypeName="mspbuModel.login">
+              <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="spps">
             <EntityTypeMapping TypeName="mspbuModel.spp">
               <MappingFragment StoreEntitySet="spp">
+                <ScalarProperty Name="arrival_date" ColumnName="arrival_date" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="verification_date" ColumnName="verification_date" />
                 <ScalarProperty Name="print_date" ColumnName="print_date" />

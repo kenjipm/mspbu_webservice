@@ -6,8 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="5b817532a6214f0d8a48c382c2931f90" Name="Diagram1">
         <EntityTypeShape EntityType="mspbuModel.dispencer" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="mspbuModel.login" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="mspbuModel.stock" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mspbuModel.login" Width="1.5" PointX="5.375" PointY="5.75" />
         <EntityTypeShape EntityType="mspbuModel.spp" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>

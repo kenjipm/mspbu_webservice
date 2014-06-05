@@ -26,8 +26,8 @@ namespace Web_Service.Model
         }
     
         public virtual DbSet<dispencer> dispencers { get; set; }
-        public virtual DbSet<login> logins { get; set; }
         public virtual DbSet<stock> stocks { get; set; }
+        public virtual DbSet<login> logins { get; set; }
         public virtual DbSet<spp> spps { get; set; }
     }
 }
