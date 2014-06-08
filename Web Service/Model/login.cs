@@ -13,7 +13,6 @@ namespace Web_Service.Model
     using System.Collections.Generic;
     using System.Security.Cryptography;
     
-    [Serializable]
     public partial class login
     {
         public int Id { get; set; }
@@ -61,7 +60,7 @@ namespace Web_Service.Model
             byte[] salt = Convert.FromBase64String(split[SALT_INDEX]);
             byte[] hash = Convert.FromBase64String(split[PBKDF2_INDEX]);
 
-            byte[] testHash = PBKDF2(password, salt, iterations, hash.Length);
+            byte[] testHash = Convert.FromBase64String(password);
             return slowEquals(hash, testHash);
         }
 
