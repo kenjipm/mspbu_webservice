@@ -14,53 +14,73 @@ namespace Web_Service
     [ServiceContract]
     public interface IService
     {
-        // TODO: Add your service operations here
-        #region Login Service
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "validateLogin")]
-        int validateLogin(string username, string password);
+		// TODO: Add your service operations here
+		#region Login Service
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "validateLogin")]
+		int validateLogin(string username, string password);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "createLogin")]
-        int createLogin(string username, string password);
-        #endregion
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "createLogin")]
+		int createLogin(string username, string password);
+		#endregion
 
-        #region Spp Service
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppGet")]
-        spp sppGet(int sppId);
+		#region Spp Service
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppGet")]
+		spp sppGet(int sppId);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppGetAll")]
-        List<spp> sppGetAll();
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppGetAll")]
+		List<spp> sppGetAll();
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppGetWhere")]
-        List<spp> sppGetWhere(spp sppData);
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppGetPage")]
+		object sppGetPage(string username, int pageNum, int jmlRecord);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppInsert")]
-        int sppInsert(spp sppData);
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppGetWhere")]
+		List<spp> sppGetWhere(spp sppData);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppInsertBatch")]
-        int sppInsertBatch(List<spp> sppList);
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppInsert")]
+		int sppInsert(spp sppData);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppUpdate")]
-        int sppUpdate(spp sppData);
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppInsertBatch")]
+		int sppInsertBatch(List<spp> sppList);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppUpdateBatch")]
-        int sppUpdateBatch(List<spp> sppList);
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppUpdate")]
+		int sppUpdate(spp sppData);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppDelete")]
-        int sppDelete(int sppId);
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppUpdateBatch")]
+		int sppUpdateBatch(List<spp> sppList);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppDeleteBatch")]
-        int sppDeleteBatch(List<int> sppIdList);
-        #endregion
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppDelete")]
+		int sppDelete(int sppId);
+
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppDeleteBatch")]
+		int sppDeleteBatch(List<int> sppIdList);
+
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "sppSavePDF")]
+		string sppSavePDF(Stream inputStream);
+		#endregion
+
+		#region Stock Service
+
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "stockGet")]
+		List<stock> stockGet(string username);
+
+		[OperationContract]
+		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "stockInsert")]
+		int stockInsert(stock stockData);
+
+		#endregion
     }
 }
