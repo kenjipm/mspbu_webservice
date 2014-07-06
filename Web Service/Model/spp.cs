@@ -11,7 +11,7 @@ namespace Web_Service.Model
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class spp
     {
         public int Id { get; set; }
@@ -26,6 +26,6 @@ namespace Web_Service.Model
         public Nullable<System.DateTime> print_date { get; set; }
         public Nullable<System.DateTime> verification_date { get; set; }
         public string status { get; set; }
-        public Nullable<System.DateTime> arrival_date { get; set; }
+        public string username { get; set; }
     }
 }

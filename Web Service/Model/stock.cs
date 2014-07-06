@@ -19,5 +19,7 @@ namespace Web_Service.Model
         public Nullable<double> jumlah { get; set; }
         public string endurance { get; set; }
         public Nullable<System.DateTime> next_shipment { get; set; }
+        public string username { get; set; }
+        public Nullable<System.DateTime> insert_date { get; set; }
     }
 }

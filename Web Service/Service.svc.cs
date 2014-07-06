@@ -31,14 +31,20 @@ namespace Web_Service
 		{
 			login lgn = mspbu.logins.Where(s => s.username == username).FirstOrDefault();
 
-			if (lgn == null) return -2;
+            if (lgn == null)
+            {
+                return -2;
+            }
 
-			if (login.validatePassword(password, lgn.password)) return 0;
+            if (login.validatePassword(password, lgn.password))
+            {
+                return 0;
+            }
 
-			return -1;
+            return -1;
 		}
 
-		public int createLogin(string username, string password)
+        public int createLogin(string username, string password, string nama_id, string alamat, string pemilik, string role)
 		{
 			login lgn = mspbu.logins.Where(s => s.username == username).FirstOrDefault();
 
@@ -47,7 +53,11 @@ namespace Web_Service
 				mspbu.logins.Add(new login()
 				{
 					username = username,
-					password = login.createHash(username, password)
+					password = login.createHash(username, password),
+                    nama_id = nama_id,
+                    alamat = alamat,
+                    pemilik = pemilik,
+                    role = role
 				});
 
 				//try
@@ -71,6 +81,21 @@ namespace Web_Service
 
 			return -1;
 		}
+
+        public login getInformation(string username)
+        {
+            login lgn = mspbu.logins.Where(s => s.username == username).FirstOrDefault();
+            lgn.username = "";
+            lgn.password = "";
+
+            return lgn;
+            //return new
+            //{
+            //    //nama_id = lgn.password
+            //    //alamat = lgn.alamat,
+            //    //pemilik = lgn.pemilik
+            //};
+        }
 		#endregion
 
 

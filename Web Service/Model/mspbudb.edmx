@@ -10,6 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
           <Property Name="product" Type="varchar" MaxLength="20" />
           <Property Name="jumlah_keluar" Type="float" />
           <Property Name="waktu_keluar" Type="datetime" />
@@ -21,12 +22,17 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="nama_id" Type="varchar" MaxLength="50" />
+          <Property Name="alamat" Type="varchar" MaxLength="200" />
+          <Property Name="pemilik" Type="varchar" MaxLength="50" />
+          <Property Name="role" Type="varchar" MaxLength="16" />
         </EntityType>
         <EntityType Name="spp">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
           <Property Name="name" Type="varchar" MaxLength="50" />
           <Property Name="address" Type="varchar" MaxLength="250" />
           <Property Name="police_no" Type="varchar" MaxLength="12" />
@@ -38,17 +44,18 @@
           <Property Name="print_date" Type="datetime" />
           <Property Name="verification_date" Type="datetime" />
           <Property Name="status" Type="varchar" MaxLength="32" />
-          <Property Name="arrival_date" Type="datetime" />
         </EntityType>
         <EntityType Name="stock">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
           <Property Name="product" Type="varchar" MaxLength="20" />
           <Property Name="jumlah" Type="float" />
           <Property Name="endurance" Type="varchar" MaxLength="50" />
           <Property Name="next_shipment" Type="date" />
+          <Property Name="insert_date" Type="datetime" />
         </EntityType>
         <EntityContainer Name="mspbuModelStoreContainer">
           <EntitySet Name="dispencer" EntityType="Self.dispencer" Schema="dbo" store:Type="Tables" />
@@ -68,6 +75,7 @@
           <Property Name="product" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="jumlah_keluar" Type="Double" />
           <Property Name="waktu_keluar" Type="DateTime" Precision="3" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="stock">
           <Key>
@@ -78,6 +86,8 @@
           <Property Name="jumlah" Type="Double" />
           <Property Name="endurance" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="next_shipment" Type="DateTime" Precision="0" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="insert_date" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityContainer Name="mspbuEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="dispencers" EntityType="Self.dispencer" />
@@ -92,6 +102,10 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nama_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="alamat" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="pemilik" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="spp">
           <Key>
@@ -109,7 +123,7 @@
           <Property Name="print_date" Type="DateTime" Precision="3" />
           <Property Name="verification_date" Type="DateTime" Precision="3" />
           <Property Name="status" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="arrival_date" Type="DateTime" Precision="3" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -120,6 +134,7 @@
           <EntitySetMapping Name="dispencers">
             <EntityTypeMapping TypeName="mspbuModel.dispencer">
               <MappingFragment StoreEntitySet="dispencer">
+                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="product" ColumnName="product" />
                 <ScalarProperty Name="jumlah_keluar" ColumnName="jumlah_keluar" />
@@ -130,6 +145,8 @@
           <EntitySetMapping Name="stocks">
             <EntityTypeMapping TypeName="mspbuModel.stock">
               <MappingFragment StoreEntitySet="stock">
+                <ScalarProperty Name="insert_date" ColumnName="insert_date" />
+                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="product" ColumnName="product" />
                 <ScalarProperty Name="jumlah" ColumnName="jumlah" />
@@ -141,6 +158,10 @@
           <EntitySetMapping Name="logins">
             <EntityTypeMapping TypeName="mspbuModel.login">
               <MappingFragment StoreEntitySet="login">
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="pemilik" ColumnName="pemilik" />
+                <ScalarProperty Name="alamat" ColumnName="alamat" />
+                <ScalarProperty Name="nama_id" ColumnName="nama_id" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -150,7 +171,7 @@
           <EntitySetMapping Name="spps">
             <EntityTypeMapping TypeName="mspbuModel.spp">
               <MappingFragment StoreEntitySet="spp">
-                <ScalarProperty Name="arrival_date" ColumnName="arrival_date" />
+                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="verification_date" ColumnName="verification_date" />
                 <ScalarProperty Name="print_date" ColumnName="print_date" />

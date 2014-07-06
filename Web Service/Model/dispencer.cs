@@ -18,5 +18,6 @@ namespace Web_Service.Model
         public string product { get; set; }
         public Nullable<double> jumlah_keluar { get; set; }
         public Nullable<System.DateTime> waktu_keluar { get; set; }
+        public string username { get; set; }
     }
 }

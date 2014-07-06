@@ -18,11 +18,15 @@ namespace Web_Service
 		#region Login Service
 		[OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "validateLogin")]
-		int validateLogin(string username, string password);
+        int validateLogin(string username, string password);
 
 		[OperationContract]
 		[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "createLogin")]
-		int createLogin(string username, string password);
+        int createLogin(string username, string password, string nama_id, string alamat, string pemilik, string role);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "getInformation")]
+        login getInformation(string username);
 		#endregion
 
 		#region Spp Service

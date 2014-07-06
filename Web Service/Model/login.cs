@@ -18,6 +18,10 @@ namespace Web_Service.Model
         public int Id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
+        public string nama_id { get; set; }
+        public string alamat { get; set; }
+        public string pemilik { get; set; }
+        public string role { get; set; }
 
         public const int HASH_BYTE_SIZE = 24;
         public const int PBKDF2_ITERATIONS = 1000;
@@ -32,17 +36,14 @@ namespace Web_Service.Model
         /// <param name="username">The username as salt</param>
         /// <param name="password">The password to hash</param>
         /// <returns>The hash of the password</returns>
-        public static string createHash(string username, string password)
+        public static string createHash(string username, string hash)
         {
             // Username as a salt
             byte[] salt = new byte[username.Length * sizeof(char)];
             System.Buffer.BlockCopy(username.ToCharArray(), 0, salt, 0, salt.Length);
-
-            // Hash the password and encode the parameters
-            byte[] hash = PBKDF2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
             return PBKDF2_ITERATIONS + ":" +
                 Convert.ToBase64String(salt) + ":" +
-                Convert.ToBase64String(hash);
+                hash;
         }
 
         /// <summary>
